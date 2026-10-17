@@ -20,8 +20,7 @@ public class StartController {
 
     @FXML
     private void onStart() {
-        // Следующий экран подключим, когда он появится:
-        // navigation.showInPrimary(Screen.NEXT);
+        navigation.showInPrimary(Screen.SCAN);
     }
 
     @FXML

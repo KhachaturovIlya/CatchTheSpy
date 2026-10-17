@@ -1,0 +1,35 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.ui.scan.ScanController"
+            styleClass="screen-root">
+    <top>
+        <Label text="Select data sources" styleClass="page-title"
+               BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets top="60" bottom="40"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <center>
+        <VBox fx:id="sourcesBox" alignment="CENTER" spacing="18" fillWidth="false"/>
+    </center>
+
+    <bottom>
+        <BorderPane>
+            <left>
+                <Button text="Back" onAction="#onBack"
+                        styleClass="secondary, action-button"/>
+            </left>
+            <right>
+                <Button fx:id="parseButton" text="Parse" onAction="#onParse"
+                        styleClass="primary, action-button"/>
+            </right>
+        </BorderPane>
+    </bottom>
+</BorderPane>

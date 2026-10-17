@@ -119,3 +119,38 @@
 .help-item {
     -fx-padding: 0 0 0 16;
 }
+
+/* ===== Экран выбора источников ===== */
+.screen-root {
+    -fx-background-color: -color-bg;
+    -fx-padding: 40;
+}
+
+.page-title {
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.source-button {
+    -fx-pref-width: 320;
+    -fx-pref-height: 76;
+    -fx-font-size: 28px;
+}
+
+.path-label {
+    -fx-pref-width: 700;
+    -fx-font-size: 20px;
+    -fx-text-fill: -color-text-muted;
+    -fx-text-overrun: leading-ellipsis;
+}
+
+.path-label.selected {
+    -fx-text-fill: -color-text;
+}
+
+.action-button {
+    -fx-pref-width: 280;
+    -fx-pref-height: 80;
+    -fx-font-size: 28px;
+}

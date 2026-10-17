@@ -1,0 +1,121 @@
+/* ==========================================================
+   Палитра и базовые настройки
+   ========================================================== */
+.root {
+    /* цвета (используются ниже как -color-...) */
+    -color-bg:             #f5f6f8;
+    -color-primary:        #2f6fed;
+    -color-primary-hover:  #285fd0;
+    -color-surface-hover:  #eceef2;
+    -color-border:         #c8ccd4;
+    -color-text:           #333333;
+    -color-text-muted:     #666666;
+    -color-danger:         #e5484d;
+    -color-danger-hover:   #cc3a3f;
+
+    /* шрифт по умолчанию для всего приложения */
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* ==========================================================
+   Корневые контейнеры окон
+   ========================================================== */
+.start-root {
+    -fx-background-color: -color-bg;
+    -fx-padding: 40;
+}
+
+.help-root {
+    -fx-background-color: transparent;
+    -fx-padding: 40;
+}
+
+/* ==========================================================
+   Текст
+   ========================================================== */
+.title {
+    -fx-font-size: 80px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.subtitle {
+    -fx-font-size: 20px;
+    -fx-text-fill: -color-text-muted;
+}
+
+.default-text {
+    -fx-font-size: 24px;
+    -fx-text-fill: -color-text;
+    -fx-line-spacing: 3;
+}
+
+/* ==========================================================
+   Кнопки
+   ========================================================== */
+
+/* общее для основной и вторичной кнопок */
+.primary,
+.secondary {
+    -fx-font-size: 24px;
+    -fx-padding: 10 28;
+    -fx-background-radius: 16;
+}
+
+/* основная */
+.primary {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+}
+
+.primary:hover {
+    -fx-background-color: -color-primary-hover;
+}
+
+/* вторичная */
+.secondary {
+    -fx-background-color: white;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 16;
+    -fx-text-fill: -color-text;
+}
+
+.secondary:hover {
+    -fx-background-color: -color-surface-hover;
+}
+
+/* кнопка закрытия окна (красный квадрат в углу) */
+.close-button {
+    -fx-background-color: -color-danger;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 0;
+    -fx-pref-width: 36;
+    -fx-pref-height: 36;
+    -fx-cursor: hand;
+}
+
+.close-button:hover {
+    -fx-background-color: -color-danger-hover;
+}
+
+/* New features (not structured) */
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-padding: 32 40;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 20, 0, 0, 4);
+}
+
+.help-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.help-item {
+    -fx-padding: 0 0 0 16;
+}

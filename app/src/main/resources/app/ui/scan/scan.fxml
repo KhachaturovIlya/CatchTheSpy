@@ -26,9 +26,14 @@
                 <Button text="Back" onAction="#onBack"
                         styleClass="secondary, action-button"/>
             </left>
+
             <right>
-                <Button fx:id="parseButton" text="Parse" onAction="#onParse"
-                        styleClass="primary, action-button"/>
+                <VBox spacing="20" alignment="BOTTOM_RIGHT">
+                    <Button fx:id="parseButton" text="Parse" onAction="#onParse"
+                            styleClass="primary, action-button"/>
+                    <Button fx:id="skipButton" text="Skip parse" onAction="#onSkip"
+                            styleClass="secondary, action-button"/>
+                </VBox>
             </right>
         </BorderPane>
     </bottom>

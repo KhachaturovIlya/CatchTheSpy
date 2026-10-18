@@ -87,6 +87,11 @@ public class ScanController {
     }
 
     @FXML
+    private void onSkip() {
+        // позже: сразу перейти к готовой БД.
+    }
+
+    @FXML
     private void onBack() {
         navigation.showInPrimary(Screen.START);
     }

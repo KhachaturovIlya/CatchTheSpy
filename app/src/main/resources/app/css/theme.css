@@ -1,5 +1,5 @@
 /* ==========================================================
-   Палитра и базовые настройки
+   1. ПАЛИТРА И БАЗОВЫЕ НАСТРОЙКИ
    ========================================================== */
 .root {
     /* цвета (используются ниже как -color-...) */
@@ -19,20 +19,22 @@
 }
 
 /* ==========================================================
-   Корневые контейнеры окон
+   2. КОРНЕВЫЕ КОНТЕЙНЕРЫ ОКОН
    ========================================================== */
-.start-root {
+.start-root,
+.screen-root {
     -fx-background-color: -color-bg;
     -fx-padding: 40;
 }
 
+/* прозрачный корень: окно Help без рамки, видна только карточка */
 .help-root {
     -fx-background-color: transparent;
     -fx-padding: 40;
 }
 
 /* ==========================================================
-   Текст
+   3. ТЕКСТ
    ========================================================== */
 .title {
     -fx-font-size: 80px;
@@ -51,11 +53,34 @@
     -fx-line-spacing: 3;
 }
 
+/* заголовок экрана; success / error меняют цвет статуса */
+.page-title {
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.page-title.success {
+    -fx-text-fill: #1f9d55;
+}
+
+.page-title.error {
+    -fx-text-fill: -color-danger;
+}
+
+.count-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: -color-text-muted;
+}
+
 /* ==========================================================
-   Кнопки
+   4. КНОПКИ
+   ВАЖНО: правила ниже стоят в таком порядке намеренно.
+   Размеры (.action-button и др.) должны идти ПОСЛЕ .primary/.secondary,
+   иначе размер шрифта из .primary/.secondary их перебьёт.
    ========================================================== */
 
-/* общее для основной и вторичной кнопок */
+/* 4.1 Базовый вид */
 .primary,
 .secondary {
     -fx-font-size: 24px;
@@ -63,7 +88,6 @@
     -fx-background-radius: 16;
 }
 
-/* основная */
 .primary {
     -fx-background-color: -color-primary;
     -fx-text-fill: white;
@@ -73,7 +97,12 @@
     -fx-background-color: -color-primary-hover;
 }
 
-/* вторичная */
+.primary:disabled {
+    -fx-background-color: -color-border;
+    -fx-text-fill: #8a8f98;
+    -fx-opacity: 1;
+}
+
 .secondary {
     -fx-background-color: white;
     -fx-border-color: -color-border;
@@ -85,15 +114,37 @@
     -fx-background-color: -color-surface-hover;
 }
 
-/* кнопка закрытия окна (красный квадрат в углу) */
+/* 4.2 Размеры и варианты */
+.action-button {
+    -fx-pref-width: 280;
+    -fx-pref-height: 80;
+    -fx-font-size: 28px;
+}
+
+.source-button {
+    -fx-pref-width: 320;
+    -fx-pref-height: 76;
+    -fx-font-size: 28px;
+}
+
+.small-button {
+    -fx-font-size: 16px;
+    -fx-padding: 8 18;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+/* 4.3 Специальные кнопки */
+
+/* красный квадрат закрытия в углу окна Help */
 .close-button {
-    -fx-background-color: -color-danger;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 6;
-    -fx-padding: 0;
     -fx-pref-width: 36;
     -fx-pref-height: 36;
+    -fx-padding: 0;
+    -fx-background-color: -color-danger;
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
 }
 
@@ -101,12 +152,52 @@
     -fx-background-color: -color-danger-hover;
 }
 
-/* New features (not structured) */
-
-.card {
+/* вкладки справа на экране результатов */
+.tab-button {
+    -fx-pref-width: 260;
+    -fx-pref-height: 64;
+    -fx-font-size: 20px;
     -fx-background-color: white;
     -fx-background-radius: 16;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 16;
+    -fx-text-fill: -color-text;
+}
+
+.tab-button:hover {
+    -fx-background-color: -color-surface-hover;
+}
+
+/* :selected обязан стоять после :hover */
+.tab-button:selected {
+    -fx-background-color: -color-primary;
+    -fx-border-color: -color-primary;
+    -fx-text-fill: white;
+}
+
+/* удаление строки фильтра */
+.filter-remove {
+    -fx-pref-width: 48;
+    -fx-pref-height: 48;
+    -fx-padding: 0;
+    -fx-background-color: -color-danger;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+.filter-remove:hover {
+    -fx-background-color: -color-danger-hover;
+}
+
+/* ==========================================================
+   5. ЭКРАНЫ
+   ========================================================== */
+
+/* --- Help --- */
+.card {
     -fx-padding: 32 40;
+    -fx-background-color: white;
+    -fx-background-radius: 16;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 20, 0, 0, 4);
 }
 
@@ -120,51 +211,38 @@
     -fx-padding: 0 0 0 16;
 }
 
-/* ===== Экран выбора источников ===== */
-.screen-root {
-    -fx-background-color: -color-bg;
-    -fx-padding: 40;
-}
-
-.page-title {
-    -fx-font-size: 60px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -color-text;
-}
-
-.source-button {
-    -fx-pref-width: 320;
-    -fx-pref-height: 76;
-    -fx-font-size: 28px;
-}
-
+/* --- Scan: выбор источников --- */
 .path-label {
     -fx-pref-width: 700;
     -fx-font-size: 20px;
     -fx-text-fill: -color-text-muted;
-    -fx-text-overrun: leading-ellipsis;
+    -fx-text-overrun: leading-ellipsis;   /* длинный путь обрезается слева */
 }
 
 .path-label.selected {
     -fx-text-fill: -color-text;
 }
 
-.action-button {
-    -fx-pref-width: 280;
-    -fx-pref-height: 80;
-    -fx-font-size: 28px;
-}
-
-
-.page-title.success {
-    -fx-text-fill: #1f9d55;
-}
-
-.page-title.error {
-    -fx-text-fill: -color-danger;
-}
-
+/* --- Parse и Check: журнал скриптов --- */
 .log-area {
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 14px;
+}
+
+/* --- Results: таблицы и фильтры --- */
+.table-view {
+    -fx-font-size: 16px;
+    -fx-fixed-cell-size: 36;
+}
+
+.filter-field {
+    -fx-pref-height: 52;
+    -fx-font-size: 20px;
+    -fx-background-radius: 12;
+}
+
+.filter-combo {
+    -fx-pref-width: 260;
+    -fx-pref-height: 48;
+    -fx-font-size: 18px;
 }

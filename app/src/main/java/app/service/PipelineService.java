@@ -48,7 +48,6 @@ public class PipelineService {
             log.accept("[" + script.name() + "] start");
             log.accept("[" + script.name() + "] args: " + args);
 
-            log.accept("[" + script.name() + "] start");
             int code = runner.run(script.resource(), args, log);
             if (code != 0) {
                 throw new IllegalStateException(script.name() + " failed, exit code " + code);

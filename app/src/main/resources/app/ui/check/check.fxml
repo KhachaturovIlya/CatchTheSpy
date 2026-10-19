@@ -17,6 +17,9 @@
             <Label fx:id="statusLabel" text="Scanning..." styleClass="page-title"/>
             <TextArea fx:id="logArea" editable="false" wrapText="true"
                       prefWidth="900" prefHeight="360" styleClass="log-area"/>
+            <Button fx:id="resultsButton" text="View results" onAction="#onViewResults"
+                    visible="false" managed="false" styleClass="primary, action-button"
+                    style="-fx-pref-width: 360;"/>
             <Button fx:id="openFolderButton" text="Open folder" onAction="#onOpenFolder"
                     visible="false" managed="false" styleClass="secondary, action-button"/>
         </VBox>

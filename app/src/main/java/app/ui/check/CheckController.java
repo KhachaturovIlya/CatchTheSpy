@@ -30,6 +30,7 @@ public class CheckController implements ScreenParameter<ParseRequest> {
     @FXML private TextArea logArea;
     @FXML private Button backButton;
     @FXML private Button openFolderButton;
+    @FXML private Button resultsButton;
 
     public CheckController(NavigationManager navigation) {
         this.navigation = navigation;
@@ -59,6 +60,7 @@ public class CheckController implements ScreenParameter<ParseRequest> {
         statusLabel.getStyleClass().add("success");
         logArea.appendText("\nResults saved to: " + AppPaths.OUT + "\n");
         setShown(openFolderButton, true);
+        setShown(resultsButton, true);
     }
 
     private void showError(Throwable error) {
@@ -90,5 +92,10 @@ public class CheckController implements ScreenParameter<ParseRequest> {
     private static void setShown(Node node, boolean shown) {
         node.setVisible(shown);
         node.setManaged(shown);
+    }
+
+    @FXML
+    private void onViewResults() {
+        navigation.showInPrimary(Screen.RESULTS);
     }
 }

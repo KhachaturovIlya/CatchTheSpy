@@ -6,6 +6,7 @@ public enum Screen {
     SCAN("/app/ui/scan/scan.fxml"),
     PARSE("/app/ui/parse/parse.fxml"),
     CHECK("/app/ui/check/check.fxml"),
+    RESULTS("/app/ui/results/results.fxml"),
     ;
 
 

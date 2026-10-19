@@ -1,4 +1,4 @@
-package app.ui.scan;
+package app.ui;
 
 import app.core.navigation.NavigationManager;
 import app.core.navigation.Screen;
@@ -86,11 +86,6 @@ public class ScanController {
     @FXML
     private void onParse() {
         navigation.showInPrimary(Screen.PARSE, new ParseRequest(selected));
-    }
-
-    @FXML
-    private void onSkip() {
-        // позже: сразу перейти к готовой БД.
     }
 
     @FXML

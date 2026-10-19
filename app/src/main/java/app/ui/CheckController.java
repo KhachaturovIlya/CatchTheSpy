@@ -1,4 +1,4 @@
-package app.ui.check;
+package app.ui;
 
 import app.core.config.AppPaths;
 import app.core.navigation.NavigationManager;

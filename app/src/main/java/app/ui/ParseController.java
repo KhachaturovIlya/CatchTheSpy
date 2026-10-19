@@ -1,4 +1,4 @@
-package app.ui.parse;
+package app.ui;
 
 import app.core.config.AppPaths;
 import app.core.navigation.NavigationManager;
@@ -74,7 +74,7 @@ public class ParseController implements ScreenParameter<ParseRequest> {
         statusLabel.getStyleClass().add("error");
         logArea.appendText("ERROR: " + error.getMessage() + "\n");
 
-        setShown(backButton, true);   // единственный выход, если что-то пошло не так
+        setShown(backButton, true);
     }
 
     @FXML

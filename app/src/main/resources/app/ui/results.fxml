@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="app.ui.results.ResultsController"
+            fx:controller="app.ui.ResultsController"
             styleClass="screen-root">
 
     <top>

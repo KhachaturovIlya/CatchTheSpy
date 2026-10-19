@@ -1,4 +1,4 @@
-package app.ui.main;
+package app.ui;
 
 import app.core.navigation.NavigationManager;
 import app.core.navigation.Screen;

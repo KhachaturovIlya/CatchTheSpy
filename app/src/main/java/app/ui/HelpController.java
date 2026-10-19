@@ -1,9 +1,8 @@
-package app.ui.main;
+package app.ui;
 
 import app.core.navigation.NavigationManager;
 import app.core.navigation.Screen;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 
 public class HelpController {
     private final NavigationManager navigation;

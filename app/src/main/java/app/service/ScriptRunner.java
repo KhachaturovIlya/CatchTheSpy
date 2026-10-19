@@ -16,7 +16,7 @@ public class ScriptRunner {
     // Можно переопределить: -Dpython.path="C:\...\python.exe"
     private static final String PYTHON = System.getProperty("python.path", "python");
 
-    private Path scriptsDir;   // временная папка, создаётся при первом запуске
+    private Path scriptsDir;
 
     public int run(String scriptResource, List<Path> args, Consumer<String> onLine)
             throws IOException, InterruptedException {

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="app.ui.scan.ScanController"
+            fx:controller="app.ui.ScanController"
             styleClass="screen-root">
     <top>
         <Label text="Select data sources" styleClass="page-title"

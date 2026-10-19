@@ -1,4 +1,4 @@
-package app.ui.results;
+package app.ui;
 
 import app.core.config.AppPaths;
 import app.core.navigation.NavigationManager;
@@ -41,7 +41,6 @@ import java.util.stream.Stream;
 public class ResultsController {
     private static final String ALL_COLUMNS = "All columns";
 
-    // порядок вкладок; остальные csv идут после них по алфавиту
     private static final List<String> TAB_ORDER = List.of(
             "passengers.csv", "flights.csv", "tickets.csv", "loyalty.csv",
             "duplicate_passports.csv", "shared_cards.csv");
@@ -72,7 +71,7 @@ public class ResultsController {
 
         tabsGroup.selectedToggleProperty().addListener((obs, old, now) -> {
             if (now == null) {
-                old.setSelected(true);          // нельзя «выключить» вкладку повторным кликом
+                old.setSelected(true);
             } else {
                 show((Path) now.getUserData());
             }
@@ -86,7 +85,7 @@ public class ResultsController {
         for (Path file : files) {
             tabsBox.getChildren().add(createTab(file));
         }
-        tabsGroup.selectToggle(tabsGroup.getToggles().get(0));
+        tabsGroup.selectToggle(tabsGroup.getToggles().getFirst());
     }
 
     private static String tabTitle(Path file) {
@@ -124,8 +123,6 @@ public class ResultsController {
         return index < 0 ? TAB_ORDER.size() : index;
     }
 
-    // ---------- загрузка и показ таблицы ----------
-
     private void show(Path file) {
         if (file.equals(currentFile)) return;
         currentFile = file;
@@ -142,6 +139,12 @@ public class ResultsController {
         table.setPlaceholder(new Label("Loading..."));
         countLabel.setText("");
 
+        Thread thread = getThread(file);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private Thread getThread(Path file) {
         Task<CsvTable> task = new Task<>() {
             @Override
             protected CsvTable call() throws Exception {
@@ -150,7 +153,7 @@ public class ResultsController {
         };
         task.setOnSucceeded(e -> {
             cache.put(file, task.getValue());
-            if (file.equals(currentFile)) display(task.getValue());   // вкладку могли сменить
+            if (file.equals(currentFile)) display(task.getValue());
         });
         task.setOnFailed(e -> {
             if (file.equals(currentFile)) {
@@ -159,9 +162,7 @@ public class ResultsController {
             }
         });
 
-        Thread thread = new Thread(task, "csv-loader");
-        thread.setDaemon(true);
-        thread.start();
+        return new Thread(task, "csv-loader");
     }
 
     private void display(CsvTable data) {
@@ -184,19 +185,16 @@ public class ResultsController {
         filtered = new FilteredList<>(items, row -> true);
 
         SortedList<List<String>> sorted = new SortedList<>(filtered);
-        sorted.comparatorProperty().bind(table.comparatorProperty());   // сортировка по заголовку
+        sorted.comparatorProperty().bind(table.comparatorProperty());
 
         table.setPlaceholder(new Label("No rows"));
         table.setItems(sorted);
 
-        // на больших таблицах реагируем чуть позже, на маленьких почти сразу
         debounce.setDuration(Duration.millis(totalRows > 20_000 ? 120 : 30));
 
-        addFilterRow();      // стартовая строка фильтра
+        addFilterRow();
         updateCount();
     }
-
-    // ---------- фильтры ----------
 
     @FXML
     private void onAddFilter() {
@@ -231,7 +229,6 @@ public class ResultsController {
         filtered = null;
     }
 
-    /** Все заполненные условия объединяются через «И». */
     private void applyFilter() {
         if (filtered == null) return;
 
@@ -240,7 +237,7 @@ public class ResultsController {
             String query = filterRow.text.getText().strip();
             if (query.isEmpty()) continue;
 
-            int index = currentHeaders.indexOf(filterRow.column.getValue());   // -1 = «All columns»
+            int index = currentHeaders.indexOf(filterRow.column.getValue());
             if (index < 0) {
                 conditions.add(row -> row.stream().anyMatch(cell -> containsIgnoreCase(cell, query)));
             } else {
@@ -261,7 +258,6 @@ public class ResultsController {
         countLabel.setText(filtered.size() + " of " + totalRows + " rows");
     }
 
-    /** Поиск подстроки без учёта регистра и без лишних строк (важно для десятков тысяч строк). */
     private static boolean containsIgnoreCase(String text, String query) {
         for (int i = 0, last = text.length() - query.length(); i <= last; i++) {
             if (text.regionMatches(true, i, query, 0, query.length())) return true;
@@ -269,7 +265,6 @@ public class ResultsController {
         return false;
     }
 
-    /** Одна строка фильтра: колонка + текст + кнопка удаления. */
     private final class FilterRow {
         final ComboBox<String> column = new ComboBox<>();
         final TextField text = new TextField();

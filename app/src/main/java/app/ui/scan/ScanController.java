@@ -2,6 +2,8 @@ package app.ui.scan;
 
 import app.core.navigation.NavigationManager;
 import app.core.navigation.Screen;
+import app.domain.ParseRequest;
+import app.domain.SourceType;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -83,7 +85,7 @@ public class ScanController {
 
     @FXML
     private void onParse() {
-        // позже: передать selected в сервис парсинга
+        navigation.showInPrimary(Screen.PARSE, new ParseRequest(selected));
     }
 
     @FXML

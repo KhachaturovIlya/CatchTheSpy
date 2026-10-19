@@ -154,3 +154,17 @@
     -fx-pref-height: 80;
     -fx-font-size: 28px;
 }
+
+
+.page-title.success {
+    -fx-text-fill: #1f9d55;
+}
+
+.page-title.error {
+    -fx-text-fill: -color-danger;
+}
+
+.log-area {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 14px;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.ui.check.CheckController"
+            styleClass="screen-root">
+
+    <center>
+        <VBox alignment="CENTER" spacing="28" fillWidth="false">
+            <ProgressIndicator fx:id="progress" prefWidth="90" prefHeight="90"/>
+            <Label fx:id="statusLabel" text="Scanning..." styleClass="page-title"/>
+            <TextArea fx:id="logArea" editable="false" wrapText="true"
+                      prefWidth="900" prefHeight="360" styleClass="log-area"/>
+            <Button fx:id="openFolderButton" text="Open folder" onAction="#onOpenFolder"
+                    visible="false" managed="false" styleClass="secondary, action-button"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <Button fx:id="backButton" text="Back" onAction="#onBack"
+                visible="false" managed="false" styleClass="secondary, action-button"/>
+    </bottom>
+</BorderPane>

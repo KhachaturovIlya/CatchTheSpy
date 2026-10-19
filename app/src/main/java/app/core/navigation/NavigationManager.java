@@ -26,7 +26,11 @@ public class NavigationManager {
     }
 
     public void showInPrimary(Screen screen) {
-        Parent root = load(screen);
+        showInPrimary(screen, null);
+    }
+
+    public void showInPrimary(Screen screen, Object data) {
+        Parent root = load(screen, data);
         Scene scene = primaryStage.getScene();
         if (scene == null) {
             scene = new Scene(root, 640, 400);
@@ -76,10 +80,19 @@ public class NavigationManager {
     }
 
     private Parent load(Screen screen) {
+        return load(screen, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Parent load(Screen screen, Object data) {
         FXMLLoader loader = new FXMLLoader(resource(screen.fxml()));
         loader.setControllerFactory(this::createController);
         try {
-            return loader.load();
+            Parent root = loader.load();
+            if (data != null && loader.getController() instanceof ScreenParameter<?> receiver) {
+                ((ScreenParameter<Object>) receiver).onShow(data);
+            }
+            return root;
         } catch (IOException e) {
             throw new IllegalStateException("Cannot load " + screen.fxml(), e);
         }

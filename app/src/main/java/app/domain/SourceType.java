@@ -1,4 +1,4 @@
-package app.ui.scan;
+package app.domain;
 
 public enum SourceType {
     JSON("json", "*.json"),

@@ -3,7 +3,10 @@ package app.core.navigation;
 public enum Screen {
     START("/app/ui/main/start.fxml"),
     HELP("/app/ui/help/help.fxml"),
-    SCAN("/app/ui/scan/scan.fxml"),;
+    SCAN("/app/ui/scan/scan.fxml"),
+    PARSE("/app/ui/parse/parse.fxml"),
+    CHECK("/app/ui/check/check.fxml"),
+    ;
 
 
     private final String fxml;

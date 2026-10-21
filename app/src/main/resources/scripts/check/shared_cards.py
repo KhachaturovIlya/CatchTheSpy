@@ -8,7 +8,6 @@ OUT_FIELDS = ['program', 'card_no', 'source', 'last_name', 'first_name', 'passpo
 
 
 def skeleton(word):
-    """Сводит варианты транслитерации к одному виду: NATAL'YA, NATALIIA -> NATALIA; ALEKSEI, ALEXEY -> ALEXEI."""
     s = (word.upper()
              .replace("'", '')
              .replace('Y', 'I')
@@ -24,9 +23,8 @@ def person(last, first):
 
 
 def main(pointz_path, loyalty_path, passengers_path, dst):
-    people = defaultdict(dict)  # (program, card_no) -> person -> строка результата
+    people = defaultdict(dict)
 
-    # PointzAggregator
     for _, el in ET.iterparse(pointz_path):
         if el.tag != 'user':
             continue
@@ -38,8 +36,7 @@ def main(pointz_path, loyalty_path, passengers_path, dst):
                 'source': 'Pointz', 'last_name': last, 'first_name': first, 'passport': ''})
         el.clear()
 
-    # loyalty.csv + passengers.csv
-    names = defaultdict(list)  # паспорт -> [(фамилия, имя)]
+    names = defaultdict(list)
     with open(passengers_path, encoding='utf-8', newline='') as f:
         for r in csv.DictReader(f):
             names[r['passport']].append((r['last_name'], r['first_name']))

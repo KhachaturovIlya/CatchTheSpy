@@ -8,9 +8,14 @@ import xml.etree.ElementTree as ET
 from collections import defaultdict
 from multiprocessing import Pool
 
+import pandas as pd
+
 NS = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
 CELLS = {'B3': 'name', 'F3': 'card', 'A5': 'flight_no', 'A9': 'date', 'E13': 'ticket_no'}
-SIRENA_DOC = (168, 180)  # позиции колонки TravelDoc в строке Sirena
+SIRENA_COLUMNS = {
+    'doc': (168, 180),
+    'add_info': (240, 276),
+}
 OUT_FIELDS = ['program', 'card_no', 'passport']
 
 
@@ -19,7 +24,6 @@ def text(el):
 
 
 def read_file(path):
-    """Талоны с картой из одного xlsx: список dict с полями из CELLS."""
     passes = []
     with zipfile.ZipFile(path) as z:
         names = z.namelist()
@@ -43,9 +47,8 @@ def read_file(path):
                 passes.append(rec)
     return passes
 
-
+# (program, card_no) -> паспорта
 def skeleton(word):
-    """Сводит варианты транслитерации к одному виду: NATAL'YA, NATALIIA -> NATALIA; ALEKSEI, ALEXEY -> ALEXEI."""
     s = (word.upper()
              .replace("'", '')
              .replace('Y', 'I')
@@ -57,38 +60,36 @@ def skeleton(word):
 
 
 def name_key(words):
-    """Фамилия и имя без порядка и без инициалов: в xlsx порядок слов бывает разный."""
     return frozenset(skeleton(w) for w in words if len(w.rstrip('.')) > 1)
 
 
 def load_boarding(path):
-    """-> (номер билета -> паспорт, (рейс, дата, имя) -> множество паспортов)."""
-    by_ticket = {}
+    df = pd.read_csv(path, sep=';', dtype=str, keep_default_na=False)
+    df['passport'] = df['PassengerDocument'].str.replace(' ', '')
+    with_ticket = df[df['TicketNumber'] != 'Not presented']
+    by_ticket = dict(zip(with_ticket['TicketNumber'], with_ticket['passport']))
     by_flight = defaultdict(set)
-    with open(path, encoding='utf-8', newline='') as f:
-        for r in csv.DictReader(f, delimiter=';'):
-            passport = r['PassengerDocument'].replace(' ', '')
-            if r['TicketNumber'] != 'Not presented':
-                by_ticket[r['TicketNumber']] = passport
-            name = name_key([r['PassengerLastName'], r['PassengerFirstName']])
-            by_flight[(r['FlightNumber'], r['FlightDate'], name)].add(passport)
+    for r in df.itertuples(index=False):
+        by_flight[(r.FlightNumber, r.FlightDate, name_key([r.PassengerLastName, r.PassengerFirstName]))].add(r.passport)
     return by_ticket, by_flight
 
 
-def main(xlsx_dir, boarding_path, sirena_path, dst):
-    cards = defaultdict(set)  # (program, card_no) -> паспорта
+def read_sirena_cards(path):
+    df = pd.read_fwf(path, colspecs=list(SIRENA_COLUMNS.values()), names=list(SIRENA_COLUMNS),
+                     skiprows=1, dtype=str, keep_default_na=False)
+    cards = df['add_info'].str.extract(r'FF#([A-Z]{2}) (\d+)')
+    cards.columns = ['program', 'card_no']
+    cards['passport'] = df['doc'].str.replace(' ', '')
+    return cards.dropna()
 
-    # Sirena
-    with open(sirena_path, encoding='utf-8') as f:
-        next(f)  # заголовок
-        for line in f:
-            m = re.search(r'FF#([A-Z]{2}) (\d+)', line)
-            if m:
-                a, b = SIRENA_DOC
-                cards[(m.group(1), m.group(2))].add(line[a:b].strip().replace(' ', ''))
+
+def main(xlsx_dir, boarding_path, sirena_path, dst):
+    cards = defaultdict(set)
+
+    for r in read_sirena_cards(sirena_path).itertuples(index=False):
+        cards[(r.program, r.card_no)].add(r.passport)
     sirena_cards = len(cards)
 
-    # xlsx + BoardingData.csv
     by_ticket, by_flight = load_boarding(boarding_path)
     files = sorted(glob.glob(os.path.join(xlsx_dir, '*.xlsx')))
     with Pool() as pool:

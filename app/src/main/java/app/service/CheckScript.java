@@ -10,7 +10,13 @@ public enum CheckScript implements PipelineScript {
     DUPLICATE_PASSPORTS("duplicate_passports.py", "duplicate_passports.csv",
             List.of(), List.of("passengers.csv")),
     SHARED_CARDS("shared_cards.py", "shared_cards.csv",
-            List.of(XML), List.of("loyalty.csv", "passengers.csv"));
+            List.of(XML), List.of("loyalty.csv", "passengers.csv")),
+    DELAYED_BAGGAGE("delayed_bagage.py", "delayed_baggage.csv",
+            List.of(CSV), List.of()),
+    FREQUENT_FLYERS("frequent_flyers.py", "frequent_flyers.csv",
+            List.of(JSON, XML), List.of("tickets.csv", "loyalty.csv", "passengers.csv")),
+    QUICK_TRIPS("quick_trips.py", "quick_trips.csv",
+            List.of(JSON, XML), List.of("loyalty.csv", "passengers.csv"));
 
     private static final String DIR = "/scripts/check/";
 

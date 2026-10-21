@@ -43,7 +43,8 @@ public class ResultsController {
 
     private static final List<String> TAB_ORDER = List.of(
             "passengers.csv", "flights.csv", "tickets.csv", "loyalty.csv",
-            "duplicate_passports.csv", "shared_cards.csv");
+            "duplicate_passports.csv", "shared_cards.csv", "delayed_baggage.csv",
+            "frequent_flyers.csv", "quick_trips.csv");
 
     private final NavigationManager navigation;
     private final Map<Path, CsvTable> cache = new HashMap<>();

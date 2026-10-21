@@ -10,8 +10,8 @@
       alignment="CENTER" spacing="48" styleClass="start-root">
 
     <VBox alignment="CENTER" spacing="10">
-        <Label text="Catch The Spy (v 0.1.0)" styleClass="title"/>
-        <Label text="All rights are owned by 'Nogomyach nastavnik entertaiment'"
+        <Label text="Catch The Spy (v 1.0.0)" styleClass="title"/>
+        <Label text="All rights are owned by 'AI NKVD NASLEDIE'"
                styleClass="subtitle"/>
     </VBox>
 

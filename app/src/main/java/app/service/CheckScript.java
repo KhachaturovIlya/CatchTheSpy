@@ -16,7 +16,9 @@ public enum CheckScript implements PipelineScript {
     FREQUENT_FLYERS("frequent_flyers.py", "frequent_flyers.csv",
             List.of(JSON, XML), List.of("tickets.csv", "loyalty.csv", "passengers.csv")),
     QUICK_TRIPS("quick_trips.py", "quick_trips.csv",
-            List.of(JSON, XML), List.of("loyalty.csv", "passengers.csv"));
+            List.of(JSON, XML), List.of("loyalty.csv", "passengers.csv")),
+    UNKNOWN_FF("unknown_frequent_flyers.py", "unknown_frequent_flyers.csv",
+            List.of(JSON), List.of());
 
     private static final String DIR = "/scripts/check/";
 

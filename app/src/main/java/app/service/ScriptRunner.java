@@ -13,8 +13,14 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ScriptRunner {
-    // Можно переопределить: -Dpython.path="C:\...\python.exe"
-    private static final String PYTHON = System.getProperty("python.path", "python");
+    // Можно переопределить: -Dpython.path="C:\...\python.exe" или -Dpython.path=/usr/bin/python3
+    private static final String PYTHON = System.getProperty("python.path", defaultPython());
+
+    // На Windows интерпретатор называется python, на Linux/macOS — python3
+    private static String defaultPython() {
+        boolean windows = System.getProperty("os.name", "").toLowerCase().startsWith("windows");
+        return windows ? "python" : "python3";
+    }
 
     private Path scriptsDir;
 

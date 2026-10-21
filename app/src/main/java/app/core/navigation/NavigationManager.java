@@ -20,6 +20,7 @@ public class NavigationManager {
 
     private final Map<Screen, Stage> openWindows = new EnumMap<>(Screen.class);
     private final Stage primaryStage;
+    private final ScalingPane primaryRoot = new ScalingPane();
 
     public NavigationManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -30,14 +31,11 @@ public class NavigationManager {
     }
 
     public void showInPrimary(Screen screen, Object data) {
-        Parent root = load(screen, data);
-        Scene scene = primaryStage.getScene();
-        if (scene == null) {
-            scene = new Scene(root, 640, 400);
+        primaryRoot.setContent(load(screen, data));
+        if (primaryStage.getScene() == null) {
+            Scene scene = new Scene(primaryRoot, 640, 400);
             scene.getStylesheets().add(resource(THEME).toExternalForm());
             primaryStage.setScene(scene);
-        } else {
-            scene.setRoot(root);
         }
     }
 
